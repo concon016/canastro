@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rüya Tabiri — canastro</title>
+<meta name="description" content="Rüyanda gördüğün bir kelimeyi ara, anlamını keşfet.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">can<span class="accent">astro</span></a>
+    <nav class="nav-links">
+      <a href="index.html">Ana Sayfa</a>
+      <a href="burclar.html">Burçlar</a>
+      <a href="uyum.html">Uyum Testi</a>
+      <a href="kisilik-testi.html">Kişilik Testi</a>
+      <a href="numeroloji.html">Numeroloji</a>
+      <a href="ask-hesaplama.html">Aşk Uyumu</a>
+      <a href="ruya-tabiri.html" class="active">Rüya Tabiri</a>
+    </nav>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menü">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="nav-mobile" id="navMobile">
+    <a href="index.html">Ana Sayfa</a>
+    <a href="burclar.html">Burçlar</a>
+    <a href="uyum.html">Uyum Testi</a>
+    <a href="kisilik-testi.html">Kişilik Testi</a>
+    <a href="numeroloji.html">Numeroloji</a>
+    <a href="ask-hesaplama.html">Aşk Uyumu</a>
+    <a href="ruya-tabiri.html" class="active">Rüya Tabiri</a>
+  </div>
+</header>
+
+<main>
+
+  <section class="page-hero">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="reveal">
+      <h1>Rüyanda ne <span class="accent">gördün?</span></h1>
+      <p>Aklında kalan bir kelimeyi yaz, anlamını keşfet.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-inner">
+      <div class="tool-form reveal" style="max-width:640px">
+        <div class="form-row" style="margin-bottom:0">
+          <label for="dreamSearch">Rüyanda gördüğün şey</label>
+          <input type="text" id="dreamSearch" placeholder="Örn: yılan, su, uçmak...">
+        </div>
+      </div>
+
+      <div class="dream-results" id="dreamResults"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  © 2026 canastro · Eğlence amaçlıdır, bilimsel bir dayanağı yoktur.
+</footer>
+
+<script src="data.js"></script>
+<script src="script.js"></script>
+<script>
+  const dreamSearch = document.getElementById("dreamSearch");
+  const dreamResults = document.getElementById("dreamResults");
+  const allKeys = Object.keys(DREAM_DICTIONARY);
+
+  function renderResults(query) {
+    dreamResults.innerHTML = "";
+    const q = query.trim().toLocaleLowerCase("tr-TR");
+
+    if (!q) {
+      dreamResults.innerHTML = '<div class="empty-state">Aramaya başlamak için yukarıya bir kelime yaz.</div>';
+      return;
+    }
+
+    const matches = allKeys.filter((key) => key.includes(q));
+
+    if (matches.length === 0) {
+      dreamResults.innerHTML = '<div class="empty-state">"' + query + '" için bir sonuç bulunamadı. Başka bir kelime dene.</div>';
+      return;
+    }
+
+    matches.forEach((key) => {
+      const item = document.createElement("div");
+      item.className = "dream-item";
+      item.innerHTML = "<h4>" + key + "</h4><p>" + DREAM_DICTIONARY[key] + "</p>";
+      dreamResults.appendChild(item);
+    });
+  }
+
+  dreamSearch.addEventListener("input", () => renderResults(dreamSearch.value));
+  renderResults("");
+</script>
+</body>
+</html>

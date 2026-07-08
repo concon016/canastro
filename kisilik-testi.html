@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kozmik Kişilik Testi — canastro</title>
+<meta name="description" content="8 soruluk kısa bir testle hangi kozmik karaktere ait olduğunu öğren.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">can<span class="accent">astro</span></a>
+    <nav class="nav-links">
+      <a href="index.html">Ana Sayfa</a>
+      <a href="burclar.html">Burçlar</a>
+      <a href="uyum.html">Uyum Testi</a>
+      <a href="kisilik-testi.html" class="active">Kişilik Testi</a>
+      <a href="numeroloji.html">Numeroloji</a>
+      <a href="ask-hesaplama.html">Aşk Uyumu</a>
+      <a href="ruya-tabiri.html">Rüya Tabiri</a>
+    </nav>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menü">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="nav-mobile" id="navMobile">
+    <a href="index.html">Ana Sayfa</a>
+    <a href="burclar.html">Burçlar</a>
+    <a href="uyum.html">Uyum Testi</a>
+    <a href="kisilik-testi.html" class="active">Kişilik Testi</a>
+    <a href="numeroloji.html">Numeroloji</a>
+    <a href="ask-hesaplama.html">Aşk Uyumu</a>
+    <a href="ruya-tabiri.html">Rüya Tabiri</a>
+  </div>
+</header>
+
+<main>
+
+  <section class="page-hero">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="reveal">
+      <h1>Sen hangi <span class="accent">kozmik tipsin?</span></h1>
+      <p>8 kısa soru, senin hakkında yıldızların bilmediği bir şey ortaya çıkarabilir.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-inner">
+      <div class="quiz-progress"><div class="quiz-progress-bar" id="progressBar" style="width:0%"></div></div>
+      <div id="quizContainer"></div>
+
+      <div class="result-card" id="resultCard" style="max-width:560px;margin-left:auto;margin-right:auto;">
+        <h3 id="resultTitle"></h3>
+        <p id="resultText"></p>
+        <button class="share-btn" id="shareBtn">Sonucunu Paylaş</button>
+        <div style="margin-top:16px">
+          <button class="btn btn-secondary" id="retryBtn">Tekrar Çöz</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  © 2026 canastro · Eğlence amaçlıdır, bilimsel bir dayanağı yoktur.
+</footer>
+
+<script src="data.js"></script>
+<script src="script.js"></script>
+<script>
+  const quizContainer = document.getElementById("quizContainer");
+  const progressBar = document.getElementById("progressBar");
+  const resultCard = document.getElementById("resultCard");
+  const resultTitle = document.getElementById("resultTitle");
+  const resultText = document.getElementById("resultText");
+  const shareBtn = document.getElementById("shareBtn");
+  const retryBtn = document.getElementById("retryBtn");
+
+  let currentIndex = 0;
+  const scores = { gunes: 0, ay: 0, yildiz: 0, toprak: 0 };
+  let currentShareText = "";
+
+  function renderQuiz() {
+    quizContainer.innerHTML = "";
+    PERSONALITY_QUESTIONS.forEach((q, i) => {
+      const qEl = document.createElement("div");
+      qEl.className = "quiz-question" + (i === 0 ? " active" : "");
+      qEl.dataset.index = i;
+
+      const optsHtml = q.options
+        .map((opt, oi) => '<button class="quiz-option" data-type="' + opt.type + '">' + opt.text + "</button>")
+        .join("");
+
+      qEl.innerHTML = "<h3>" + q.q + "</h3><div class='quiz-options'>" + optsHtml + "</div>";
+      quizContainer.appendChild(qEl);
+    });
+
+    quizContainer.querySelectorAll(".quiz-option").forEach((btn) => {
+      btn.addEventListener("click", () => selectAnswer(btn.dataset.type));
+    });
+  }
+
+  function selectAnswer(type) {
+    scores[type]++;
+    currentIndex++;
+    progressBar.style.width = (currentIndex / PERSONALITY_QUESTIONS.length) * 100 + "%";
+
+    if (currentIndex >= PERSONALITY_QUESTIONS.length) {
+      showResult();
+      return;
+    }
+
+    quizContainer.querySelectorAll(".quiz-question").forEach((el) => el.classList.remove("active"));
+    quizContainer.querySelector('[data-index="' + currentIndex + '"]').classList.add("active");
+  }
+
+  function showResult() {
+    let winner = "gunes";
+    let max = -1;
+    Object.keys(scores).forEach((k) => {
+      if (scores[k] > max) { max = scores[k]; winner = k; }
+    });
+
+    const result = PERSONALITY_RESULTS[winner];
+    quizContainer.style.display = "none";
+    document.querySelector(".quiz-progress").style.display = "none";
+
+    resultTitle.textContent = result.title;
+    resultText.textContent = result.text;
+    currentShareText = "Kozmik tipim: " + result.title;
+    resultCard.classList.add("visible");
+  }
+
+  function resetQuiz() {
+    currentIndex = 0;
+    Object.keys(scores).forEach((k) => (scores[k] = 0));
+    progressBar.style.width = "0%";
+    resultCard.classList.remove("visible");
+    quizContainer.style.display = "block";
+    document.querySelector(".quiz-progress").style.display = "block";
+    renderQuiz();
+  }
+
+  shareBtn.addEventListener("click", () => shareResult(currentShareText));
+  retryBtn.addEventListener("click", resetQuiz);
+
+  renderQuiz();
+</script>
+</body>
+</html>

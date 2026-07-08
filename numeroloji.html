@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Numeroloji Hesaplayıcı — canastro</title>
+<meta name="description" content="İsmin ve doğum tarihinden yaşam yolu sayını ve anlamını hesapla.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">can<span class="accent">astro</span></a>
+    <nav class="nav-links">
+      <a href="index.html">Ana Sayfa</a>
+      <a href="burclar.html">Burçlar</a>
+      <a href="uyum.html">Uyum Testi</a>
+      <a href="kisilik-testi.html">Kişilik Testi</a>
+      <a href="numeroloji.html" class="active">Numeroloji</a>
+      <a href="ask-hesaplama.html">Aşk Uyumu</a>
+      <a href="ruya-tabiri.html">Rüya Tabiri</a>
+    </nav>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menü">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="nav-mobile" id="navMobile">
+    <a href="index.html">Ana Sayfa</a>
+    <a href="burclar.html">Burçlar</a>
+    <a href="uyum.html">Uyum Testi</a>
+    <a href="kisilik-testi.html">Kişilik Testi</a>
+    <a href="numeroloji.html" class="active">Numeroloji</a>
+    <a href="ask-hesaplama.html">Aşk Uyumu</a>
+    <a href="ruya-tabiri.html">Rüya Tabiri</a>
+  </div>
+</header>
+
+<main>
+
+  <section class="page-hero">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="reveal">
+      <h1>Sayıların <span class="accent">gizli dili.</span></h1>
+      <p>İsmin ve doğum tarihin, yaşam yolunla ilgili neler söylüyor?</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-inner">
+      <div class="tool-form reveal">
+        <div class="form-row">
+          <label for="fullName">Ad Soyad</label>
+          <input type="text" id="fullName" placeholder="Örn: Mehmet Can">
+        </div>
+        <div class="form-row">
+          <label for="birthDate">Doğum Tarihi</label>
+          <input type="date" id="birthDate">
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-primary" id="calcBtn">Hesapla</button>
+        </div>
+      </div>
+
+      <div class="result-card" id="resultCard" style="max-width:560px;margin-left:auto;margin-right:auto;">
+        <div id="resultContent"></div>
+        <button class="share-btn" id="shareBtn">Sonucunu Paylaş</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  © 2026 canastro · Eğlence amaçlıdır, bilimsel bir dayanağı yoktur.
+</footer>
+
+<script src="data.js"></script>
+<script src="script.js"></script>
+<script>
+  const resultCard = document.getElementById("resultCard");
+  const resultContent = document.getElementById("resultContent");
+  const shareBtn = document.getElementById("shareBtn");
+  let currentShareText = "";
+
+  function reduceNumber(n) {
+    while (n > 9 && n !== 11 && n !== 22 && n !== 33) {
+      n = String(n)
+        .split("")
+        .reduce((a, b) => a + parseInt(b, 10), 0);
+    }
+    return n;
+  }
+
+  function lifePathFromDate(dateStr) {
+    const digits = dateStr.replace(/-/g, "").split("").reduce((a, b) => a + parseInt(b, 10), 0);
+    return reduceNumber(digits);
+  }
+
+  function nameNumber(name) {
+    const upper = name.toLocaleUpperCase("tr-TR");
+    let sum = 0;
+    for (const ch of upper) {
+      if (LETTER_VALUES[ch] !== undefined) sum += LETTER_VALUES[ch];
+    }
+    return reduceNumber(sum || 0);
+  }
+
+  document.getElementById("calcBtn").addEventListener("click", () => {
+    const name = document.getElementById("fullName").value.trim();
+    const birthDate = document.getElementById("birthDate").value;
+
+    if (!name || !birthDate) {
+      alert("Lütfen ad soyad ve doğum tarihini gir.");
+      return;
+    }
+
+    const lifePath = lifePathFromDate(birthDate);
+    const nameNum = nameNumber(name);
+
+    resultContent.innerHTML =
+      '<div class="result-score">' + lifePath + "</div>" +
+      "<h3>Yaşam Yolu Sayın</h3>" +
+      "<p>" + LIFE_PATH_MEANINGS[lifePath] + "</p>" +
+      '<div style="margin-top:22px;padding-top:22px;border-top:1px solid var(--border)">' +
+      "<h3>İsim Sayın: " + nameNum + "</h3>" +
+      "<p>" + LIFE_PATH_MEANINGS[nameNum] + "</p>" +
+      "</div>";
+
+    currentShareText = name + " için yaşam yolu sayısı: " + lifePath;
+    resultCard.classList.add("visible");
+    resultCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  });
+
+  shareBtn.addEventListener("click", () => shareResult(currentShareText));
+</script>
+</body>
+</html>

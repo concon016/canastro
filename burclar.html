@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Günlük Burç Yorumları — canastro</title>
+<meta name="description" content="12 burç için her gün yenilenen aşk, kariyer ve enerji yorumları.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">can<span class="accent">astro</span></a>
+    <nav class="nav-links">
+      <a href="index.html">Ana Sayfa</a>
+      <a href="burclar.html" class="active">Burçlar</a>
+      <a href="uyum.html">Uyum Testi</a>
+      <a href="kisilik-testi.html">Kişilik Testi</a>
+      <a href="numeroloji.html">Numeroloji</a>
+      <a href="ask-hesaplama.html">Aşk Uyumu</a>
+      <a href="ruya-tabiri.html">Rüya Tabiri</a>
+    </nav>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menü">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="nav-mobile" id="navMobile">
+    <a href="index.html">Ana Sayfa</a>
+    <a href="burclar.html" class="active">Burçlar</a>
+    <a href="uyum.html">Uyum Testi</a>
+    <a href="kisilik-testi.html">Kişilik Testi</a>
+    <a href="numeroloji.html">Numeroloji</a>
+    <a href="ask-hesaplama.html">Aşk Uyumu</a>
+    <a href="ruya-tabiri.html">Rüya Tabiri</a>
+  </div>
+</header>
+
+<main>
+
+  <section class="page-hero">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="reveal">
+      <h1>Bugün <span class="accent">yıldızlar</span> ne diyor?</h1>
+      <p>Burcunu seç, sana özel günlük yorumunu oku.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-inner">
+      <div class="zodiac-grid" id="zodiacGrid"></div>
+      <div class="result-card" id="resultCard">
+        <div id="resultContent"></div>
+        <button class="share-btn" id="shareBtn">Sonucunu Paylaş</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  © 2026 canastro · Eğlence amaçlıdır, bilimsel bir dayanağı yoktur.
+</footer>
+
+<script src="data.js"></script>
+<script src="script.js"></script>
+<script>
+  const zodiacGrid = document.getElementById("zodiacGrid");
+  const resultCard = document.getElementById("resultCard");
+  const resultContent = document.getElementById("resultContent");
+  const shareBtn = document.getElementById("shareBtn");
+  let currentShareText = "";
+
+  ZODIAC_SIGNS.forEach((sign) => {
+    const card = document.createElement("div");
+    card.className = "zodiac-card reveal";
+    card.innerHTML =
+      '<div class="zodiac-symbol">' + sign.symbol + '</div>' +
+      '<h3>' + sign.name + '</h3>' +
+      '<span>' + sign.range + '</span>';
+    card.addEventListener("click", () => showHoroscope(sign, card));
+    zodiacGrid.appendChild(card);
+  });
+
+  document.querySelectorAll(".zodiac-card").forEach((el, i) => {
+    setTimeout(() => el.classList.add("visible"), i * 30);
+  });
+
+  function showHoroscope(sign, cardEl) {
+    document.querySelectorAll(".zodiac-card").forEach((el) => el.classList.remove("selected"));
+    cardEl.classList.add("selected");
+
+    const day = todayKey();
+    const genel = seededPick(day + sign.id + "genel", HOROSCOPE_POOLS.genel);
+    const ask = seededPick(day + sign.id + "ask", HOROSCOPE_POOLS.ask);
+    const kariyer = seededPick(day + sign.id + "kariyer", HOROSCOPE_POOLS.kariyer);
+    const enerji = seededPick(day + sign.id + "enerji", HOROSCOPE_POOLS.enerji);
+
+    resultContent.innerHTML =
+      '<h3>' + sign.symbol + ' ' + sign.name + ' — Bugünün Yorumu</h3>' +
+      '<p><strong>Genel:</strong> ' + genel + '</p>' +
+      '<p style="margin-top:12px"><strong>Aşk:</strong> ' + ask + '</p>' +
+      '<p style="margin-top:12px"><strong>Kariyer:</strong> ' + kariyer + '</p>' +
+      '<p style="margin-top:12px"><strong>Enerji:</strong> ' + enerji + '</p>';
+
+    currentShareText = sign.symbol + " " + sign.name + " bugün: " + genel;
+    resultCard.classList.add("visible");
+    resultCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+
+  shareBtn.addEventListener("click", () => shareResult(currentShareText));
+</script>
+</body>
+</html>
