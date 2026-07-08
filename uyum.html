@@ -107,12 +107,26 @@
     const jitter = seededInt(pairSeed, -8, 8);
     const score = Math.max(30, Math.min(98, base + jitter));
     const tier = compatTier(score);
+    const pairSeed2 = pairSeed + "flavor";
+
+    const strength1 = seededPick(pairSeed2 + "s1", COMPAT_STRENGTHS);
+    let strength2 = seededPick(pairSeed2 + "s2", COMPAT_STRENGTHS);
+    if (strength2 === strength1) strength2 = seededPick(pairSeed2 + "s2b", COMPAT_STRENGTHS);
+    const challenge = seededPick(pairSeed2 + "c1", COMPAT_CHALLENGES);
 
     resultScore.textContent = "%" + score;
     resultContent.innerHTML =
       "<h3>" + a.symbol + " " + a.name + " + " + b.symbol + " " + b.name + "</h3>" +
       "<p><strong>" + tier.label + "</strong></p>" +
-      "<p style='margin-top:10px'>" + tier.text + "</p>";
+      "<p style='margin-top:10px'>" + tier.text + "</p>" +
+      "<div style='margin-top:20px'>" +
+        "<span class='profile-label'>Ortak Güçlü Yönleriniz</span>" +
+        "<ul class='bullet-list'><li>" + strength1 + "</li><li>" + strength2 + "</li></ul>" +
+      "</div>" +
+      "<div style='margin-top:16px'>" +
+        "<span class='profile-label'>Dikkat Etmeniz Gereken</span>" +
+        "<ul class='bullet-list'><li>" + challenge + "</li></ul>" +
+      "</div>";
 
     currentShareText = a.name + " + " + b.name + " uyumu: %" + score + " (" + tier.label + ")";
     resultCard.classList.add("visible");

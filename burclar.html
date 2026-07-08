@@ -95,13 +95,38 @@
     const ask = seededPick(day + sign.id + "ask", HOROSCOPE_POOLS.ask);
     const kariyer = seededPick(day + sign.id + "kariyer", HOROSCOPE_POOLS.kariyer);
     const enerji = seededPick(day + sign.id + "enerji", HOROSCOPE_POOLS.enerji);
+    const tavsiye = seededPick(day + sign.id + "tavsiye", HOROSCOPE_POOLS.tavsiye);
+
+    const compatNames = sign.compatibleWith
+      .map((id) => ZODIAC_SIGNS.find((s) => s.id === id))
+      .map((s) => s.symbol + " " + s.name)
+      .join(", ");
 
     resultContent.innerHTML =
       '<h3>' + sign.symbol + ' ' + sign.name + ' — Bugünün Yorumu</h3>' +
       '<p><strong>Genel:</strong> ' + genel + '</p>' +
       '<p style="margin-top:12px"><strong>Aşk:</strong> ' + ask + '</p>' +
       '<p style="margin-top:12px"><strong>Kariyer:</strong> ' + kariyer + '</p>' +
-      '<p style="margin-top:12px"><strong>Enerji:</strong> ' + enerji + '</p>';
+      '<p style="margin-top:12px"><strong>Enerji:</strong> ' + enerji + '</p>' +
+      '<p style="margin-top:12px;color:var(--accent)"><strong>' + tavsiye + '</strong></p>' +
+      '<div style="margin-top:24px;padding-top:24px;border-top:1px solid var(--border)">' +
+        '<h3>Burç Profili</h3>' +
+        '<p style="margin-top:8px">' + sign.trait + '</p>' +
+        '<div class="profile-grid">' +
+          '<div><span class="profile-label">Element</span>' + ELEMENT_LABELS[sign.element] + '</div>' +
+          '<div><span class="profile-label">Yönetici Gezegen</span>' + sign.planet + '</div>' +
+          '<div><span class="profile-label">Şanslı Renk</span>' + sign.luckyColor + '</div>' +
+          '<div><span class="profile-label">Şanslı Sayı</span>' + sign.luckyNumber + '</div>' +
+          '<div><span class="profile-label">Şanslı Gün</span>' + sign.luckyDay + '</div>' +
+          '<div><span class="profile-label">En Uyumlu</span>' + compatNames + '</div>' +
+        '</div>' +
+        '<div style="margin-top:16px">' +
+          '<span class="profile-label">Güçlü Yönler</span> ' + sign.strengths.join(", ") +
+        '</div>' +
+        '<div style="margin-top:8px">' +
+          '<span class="profile-label">Zayıf Yönler</span> ' + sign.weaknesses.join(", ") +
+        '</div>' +
+      '</div>';
 
     currentShareText = sign.symbol + " " + sign.name + " bugün: " + genel;
     resultCard.classList.add("visible");

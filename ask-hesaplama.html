@@ -98,11 +98,32 @@
     const score = seededInt(pairSeed, 35, 99);
     const tier = loveTier(score);
 
+    const iletisim = seededInt(pairSeed + "iletisim", 30, 99);
+    const duygusal = seededInt(pairSeed + "duygusal", 30, 99);
+    const uzunVade = seededInt(pairSeed + "uzunvade", 30, 99);
+
+    function subscoreBar(label, value) {
+      return (
+        "<div style='margin-bottom:14px'>" +
+        "<div style='display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px'>" +
+        "<span>" + label + "</span><span style='color:var(--accent)'>" + subscoreLabel(value) + " (%" + value + ")</span>" +
+        "</div>" +
+        "<div style='height:6px;background:var(--bg-soft);border-radius:980px;overflow:hidden'>" +
+        "<div style='height:100%;width:" + value + "%;background:var(--accent2)'></div>" +
+        "</div></div>"
+      );
+    }
+
     resultScore.textContent = "%" + score;
     resultContent.innerHTML =
       "<h3>" + nameA + " + " + nameB + "</h3>" +
       "<p><strong>" + tier.label + "</strong></p>" +
-      "<p style='margin-top:10px'>" + tier.text + "</p>";
+      "<p style='margin-top:10px'>" + tier.text + "</p>" +
+      "<div style='margin-top:24px'>" +
+      subscoreBar("İletişim", iletisim) +
+      subscoreBar("Duygusal Bağ", duygusal) +
+      subscoreBar("Uzun Vadeli Potansiyel", uzunVade) +
+      "</div>";
 
     currentShareText = nameA + " + " + nameB + " uyumu: %" + score + " (" + tier.label + ")";
     resultCard.classList.add("visible");

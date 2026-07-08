@@ -97,11 +97,13 @@
     return reduceNumber(digits);
   }
 
-  function nameNumber(name) {
+  function nameNumber(name, filterFn) {
     const upper = name.toLocaleUpperCase("tr-TR");
     let sum = 0;
     for (const ch of upper) {
-      if (LETTER_VALUES[ch] !== undefined) sum += LETTER_VALUES[ch];
+      if (LETTER_VALUES[ch] !== undefined && (!filterFn || filterFn(ch))) {
+        sum += LETTER_VALUES[ch];
+      }
     }
     return reduceNumber(sum || 0);
   }
@@ -117,14 +119,27 @@
 
     const lifePath = lifePathFromDate(birthDate);
     const nameNum = nameNumber(name);
+    const soulNum = nameNumber(name, (ch) => VOWELS.includes(ch));
+    const personalityNum = nameNumber(name, (ch) => !VOWELS.includes(ch));
 
     resultContent.innerHTML =
       '<div class="result-score">' + lifePath + "</div>" +
       "<h3>Yaşam Yolu Sayın</h3>" +
       "<p>" + LIFE_PATH_MEANINGS[lifePath] + "</p>" +
       '<div style="margin-top:22px;padding-top:22px;border-top:1px solid var(--border)">' +
-      "<h3>İsim Sayın: " + nameNum + "</h3>" +
-      "<p>" + LIFE_PATH_MEANINGS[nameNum] + "</p>" +
+      "<h3>İfade (İsim) Sayın: " + nameNum + "</h3>" +
+      "<p>İsminin tüm harflerinden hesaplanan bu sayı, dünyaya nasıl göründüğünü ve doğal yeteneklerini gösterir.</p>" +
+      "<p style='margin-top:8px'>" + LIFE_PATH_MEANINGS[nameNum] + "</p>" +
+      "</div>" +
+      '<div style="margin-top:22px;padding-top:22px;border-top:1px solid var(--border)">' +
+      "<h3>Ruh Arzusu Sayın: " + soulNum + "</h3>" +
+      "<p>İsminin ünlü harflerinden hesaplanır, içinde derinden istediğin ama her zaman dile getirmediğin şeyleri gösterir.</p>" +
+      "<p style='margin-top:8px'>" + LIFE_PATH_MEANINGS[soulNum] + "</p>" +
+      "</div>" +
+      '<div style="margin-top:22px;padding-top:22px;border-top:1px solid var(--border)">' +
+      "<h3>Kişilik Sayın: " + personalityNum + "</h3>" +
+      "<p>İsminin ünsüz harflerinden hesaplanır, başkalarının seni ilk anda nasıl algıladığını gösterir.</p>" +
+      "<p style='margin-top:8px'>" + LIFE_PATH_MEANINGS[personalityNum] + "</p>" +
       "</div>";
 
     currentShareText = name + " için yaşam yolu sayısı: " + lifePath;
