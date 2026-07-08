@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tarot Falı — canastro</title>
+<meta name="description" content="Geçmiş, şimdi ve gelecek için 3 kartlık tarot açılımı.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">can<span class="accent">astro</span></a>
+    <nav class="nav-links">
+      <a href="index.html">Ana Sayfa</a>
+      <a href="burclar.html">Burçlar</a>
+      <a href="uyum.html">Uyum Testi</a>
+      <a href="kisilik-testi.html">Kişilik Testi</a>
+      <a href="numeroloji.html">Numeroloji</a>
+      <a href="ask-hesaplama.html">Aşk Uyumu</a>
+      <a href="ruya-tabiri.html">Rüya Tabiri</a>
+      <a href="tarot.html" class="active">Tarot</a>
+      <a href="sevgi-dili.html">Sevgi Dili</a>
+      <a href="cift-oyunu.html">Çift Oyunu</a>
+    </nav>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menü">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="nav-mobile" id="navMobile">
+    <a href="index.html">Ana Sayfa</a>
+    <a href="burclar.html">Burçlar</a>
+    <a href="uyum.html">Uyum Testi</a>
+    <a href="kisilik-testi.html">Kişilik Testi</a>
+    <a href="numeroloji.html">Numeroloji</a>
+    <a href="ask-hesaplama.html">Aşk Uyumu</a>
+    <a href="ruya-tabiri.html">Rüya Tabiri</a>
+    <a href="tarot.html" class="active">Tarot</a>
+    <a href="sevgi-dili.html">Sevgi Dili</a>
+    <a href="cift-oyunu.html">Çift Oyunu</a>
+  </div>
+</header>
+
+<main>
+
+  <section class="page-hero">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="reveal">
+      <h1>Kartlar sana <span class="accent">ne söylüyor?</span></h1>
+      <p>Geçmiş, şimdi ve gelecek için 3 kartlık bir açılım yap.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-inner" style="text-align:center">
+      <div class="tarot-grid" id="tarotGrid">
+        <div class="tarot-slot" data-label="Geçmiş">
+          <div class="tarot-card" id="card0"><span class="tarot-back">✦</span></div>
+          <span class="tarot-slot-label">Geçmiş</span>
+        </div>
+        <div class="tarot-slot" data-label="Şimdi">
+          <div class="tarot-card" id="card1"><span class="tarot-back">✦</span></div>
+          <span class="tarot-slot-label">Şimdi</span>
+        </div>
+        <div class="tarot-slot" data-label="Gelecek">
+          <div class="tarot-card" id="card2"><span class="tarot-back">✦</span></div>
+          <span class="tarot-slot-label">Gelecek</span>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" id="drawBtn" style="margin-top:36px">Kartları Aç</button>
+
+      <div class="result-card" id="resultCard" style="max-width:640px;margin:28px auto 0;text-align:left">
+        <div id="resultContent"></div>
+        <button class="share-btn" id="shareBtn">Sonucunu Paylaş</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  © 2026 canastro · Eğlence amaçlıdır, bilimsel bir dayanağı yoktur.
+</footer>
+
+<script src="data.js"></script>
+<script src="script.js"></script>
+<script>
+  const cards = [document.getElementById("card0"), document.getElementById("card1"), document.getElementById("card2")];
+  const drawBtn = document.getElementById("drawBtn");
+  const resultCard = document.getElementById("resultCard");
+  const resultContent = document.getElementById("resultContent");
+  const shareBtn = document.getElementById("shareBtn");
+  const labels = ["Geçmiş", "Şimdi", "Gelecek"];
+  let currentShareText = "";
+
+  function drawThreeCards() {
+    const deckCopy = [...TAROT_DECK];
+    const drawn = [];
+    for (let i = 0; i < 3; i++) {
+      const idx = Math.floor(Math.random() * deckCopy.length);
+      const card = deckCopy.splice(idx, 1)[0];
+      const isReversed = Math.random() < 0.5;
+      drawn.push({ ...card, isReversed });
+    }
+    return drawn;
+  }
+
+  drawBtn.addEventListener("click", () => {
+    const drawn = drawThreeCards();
+
+    cards.forEach((cardEl, i) => {
+      cardEl.classList.remove("flipped");
+    });
+
+    setTimeout(() => {
+      drawn.forEach((card, i) => {
+        cards[i].innerHTML =
+          '<div class="tarot-face' + (card.isReversed ? " reversed" : "") + '">' +
+          "<h4>" + card.name + (card.isReversed ? " (Ters)" : "") + "</h4>" +
+          "</div>";
+        cards[i].classList.add("flipped");
+      });
+
+      resultContent.innerHTML = drawn
+        .map((card, i) => {
+          const meaning = card.isReversed ? card.reversedText : card.upright;
+          return (
+            "<div style='margin-bottom:18px'>" +
+            "<span class='profile-label'>" + labels[i] + "</span>" +
+            "<h3 style='margin-top:4px'>" + card.name + (card.isReversed ? " (Ters)" : "") + "</h3>" +
+            "<p style='margin-top:6px'>" + meaning + "</p>" +
+            "</div>"
+          );
+        })
+        .join("");
+
+      currentShareText =
+        "Tarot açılımım — Geçmiş: " + drawn[0].name + ", Şimdi: " + drawn[1].name + ", Gelecek: " + drawn[2].name;
+
+      resultCard.classList.add("visible");
+      resultCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      drawBtn.textContent = "Tekrar Çek";
+    }, 200);
+  });
+
+  shareBtn.addEventListener("click", () => shareResult(currentShareText));
+</script>
+</body>
+</html>

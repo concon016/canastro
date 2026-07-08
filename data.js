@@ -1,3 +1,193 @@
+// ---- Çift Oyunu (Doğruluk mu Cesaret mi) ----
+const TRUTH_QUESTIONS = [
+  "İlk kez benden ne zaman hoşlandığını fark ettin?",
+  "Hakkımda başkalarına söylemediğin bir düşüncen var mı?",
+  "İlişkimizde en çok neyi değiştirmek isterdin?",
+  "Benimle ilgili ilk izlenimin neydi?",
+  "En unutamadığın anımız hangisi?",
+  "Benden gizlediğin küçük bir alışkanlığın var mı?",
+  "Kıskandığın bir an oldu mu, ne zamandı?",
+  "Bana söylemekten çekindiğin bir şey var mı?",
+  "Hayalindeki bir yıl dönümü nasıl olurdu?",
+  "İlişkimizde en gurur duyduğun şey ne?",
+  "Bir günlüğüne benim yerimde olsan ne yapardın?",
+  "En çok hangi anımızı tekrar yaşamak isterdin?",
+  "Benimle ilgili değiştirmek yerine kabullendiğin bir şey var mı?",
+  "Bugüne kadar söylemediğin bir 'teşekkür ederim' var mı?",
+  "Beni en çok ne zaman özel hissettirdin?",
+  "İlişkimizin en zor anı hangisiydi, nasıl aştık?",
+  "Benimle ilgili en sevdiğin küçük detay ne?",
+  "Gelecekle ilgili en çok neyi merak ediyorsun?",
+  "Benden öğrendiğin bir şey var mı?",
+  "Şu an aklından geçen ama söylemediğin bir şey var mı?",
+];
+
+const DARE_CHALLENGES = [
+  "Partnerine gözlerinin içine bakarak 30 saniye boyunca hiç konuşmadan gül.",
+  "Partnerine sevdiğin 3 özelliğini söyle.",
+  "Partnerinin taklidini yap.",
+  "Birlikte 1 dakikalık kısa bir dans edin.",
+  "Partnerine bir şarkının nakaratını söyle.",
+  "Partnerine ilk tanıştığınız anı canlandırarak anlat.",
+  "Partnerine el yazısıyla küçük bir not yaz ve hemen ver.",
+  "Partnerine gözlerin kapalıyken sarıl.",
+  "Partnerine en komik anınızı anlat ve bitirmeden gülme.",
+  "Partnerine bir iltifat et ama hiç gülümsemeden söyle.",
+  "Partnerinle alnınızı birleştirip 20 saniye öyle kalın.",
+  "Partnerine gelecekle ilgili küçük bir hayalini anlat.",
+  "Partnerine bir şeyi ilk kez itiraf et (küçük ve tatlı bir şey olsun).",
+  "Partnerine onu neden seçtiğini tek cümleyle anlat.",
+  "Partnerinin en sevdiği anını senin ağzından anlat.",
+  "1 dakika boyunca sadece iltifatlarla konuş.",
+  "Partnerine minik bir şarkı besteleyip söyle.",
+  "Partnerine elini tutup gözlerinin rengini tarif et.",
+  "Partnerine bir sonraki randevu fikrini şimdi öner.",
+  "Partnerine sarılıp 10 saniye hiç bırakma.",
+];
+
+// ---- Tarot ----
+const TAROT_DECK = [
+  { name: "Deli", upright: "Yeni bir başlangıç, cesaret ve bilinmeyene atılan bir adım. Saf potansiyel seninle.", reversedText: "Düşüncesizlik ya da harekete geçmekten duyulan korku. Bir adım atmadan önce biraz daha düşün." },
+  { name: "Büyücü", upright: "Elindeki kaynakları kullanma zamanı. İstediğini gerçeğe dönüştürecek güç sende.", reversedText: "Potansiyelini tam kullanamıyor olabilirsin. Manipülasyona dikkat et." },
+  { name: "Azize", upright: "Sezgilerine güven. Henüz açığa çıkmamış bir bilgi ya da gerçek yakında ortaya çıkacak.", reversedText: "İç sesini bastırıyor olabilirsin. Sırlar ortaya çıkmaya hazır olmayabilir." },
+  { name: "İmparatoriçe", upright: "Bereket, yaratıcılık ve bolluk dönemi. Kendine ve doğana bakım göster.", reversedText: "Tıkanmış bir yaratıcılık ya da kendine bakımı ihmal etme hali." },
+  { name: "İmparator", upright: "Yapı, disiplin ve kontrol. Sağlam temeller kurma zamanı.", reversedText: "Aşırı katılık ya da kontrolü kaybetme korkusu." },
+  { name: "Aziz", upright: "Geleneksel bilgelik, rehberlik ve öğrenme. Bir akıl hocasından ders alabilirsin.", reversedText: "Kalıpları sorgulama, kendi yolunu çizme zamanı." },
+  { name: "Aşıklar", upright: "Uyum, bağlantı ve önemli bir seçim. Kalbinin sesini dinle.", reversedText: "Uyumsuzluk ya da zor bir karar karşısında kararsızlık." },
+  { name: "Savaş Arabası", upright: "İrade gücü, kararlılık ve zafer. Hedefine doğru ilerliyorsun.", reversedText: "Yön kaybı ya da kontrolü elinde tutamama hissi." },
+  { name: "Güç", upright: "İçsel güç, cesaret ve şefkat. Zorlukları nezaketle aşabilirsin.", reversedText: "Özgüven eksikliği ya da kendine karşı sabırsızlık." },
+  { name: "Ermiş", upright: "İçe dönüş ve yalnız kalma ihtiyacı. Cevaplar içinde saklı.", reversedText: "Aşırı izolasyon ya da yalnızlıktan kaçış." },
+  { name: "Kader Çarkı", upright: "Değişim, döngüler ve kader. Yeni bir dönemin eşiğindesin.", reversedText: "Kontrolünde olmayan bir değişime direniyor olabilirsin." },
+  { name: "Adalet", upright: "Denge, gerçek ve sonuçlarla yüzleşme. Adil bir karar yakın.", reversedText: "Adaletsizlik hissi ya da sorumluluktan kaçış." },
+  { name: "Asılan Adam", upright: "Bekleyiş, teslimiyet ve farklı bir bakış açısı. Acele etme.", reversedText: "Gereksiz bir fedakarlık ya da ilerlemede tıkanıklık." },
+  { name: "Ölüm", upright: "Bir dönemin sonu, dönüşüm ve yeniden doğuş. Bırakmak, yer açar.", reversedText: "Değişime direnme ya da geçmişe sıkı sıkıya tutunma." },
+  { name: "Denge", upright: "Uyum, sabır ve orta yolu bulma. Dengeyi koruyorsun.", reversedText: "Aşırılıklar ya da hayatındaki dengesizlik." },
+  { name: "Şeytan", upright: "Bağımlılık, bağlanma ve gölge yönlerle yüzleşme zamanı.", reversedText: "Zincirlerinden kurtulma ve özgürleşme süreci." },
+  { name: "Kule", upright: "Ani bir yıkım ya da beklenmedik bir değişim. Sarsıcı ama gerekli.", reversedText: "Kaçınılan bir yıkımın ertelenmesi, içsel bir sarsıntı." },
+  { name: "Yıldız", upright: "Umut, ilham ve iyileşme. Karanlık bir dönemin ardından ışık göründü.", reversedText: "Umutsuzluk ya da kendine olan inancı kaybetme." },
+  { name: "Ay", upright: "Belirsizlik, sezgi ve bilinçaltı. Her şey göründüğü gibi olmayabilir.", reversedText: "Kafa karışıklığının dağılması, netliğe kavuşma." },
+  { name: "Güneş", upright: "Neşe, başarı ve netlik. Önündeki dönem aydınlık ve olumlu.", reversedText: "Geçici bir karamsarlık, ama güneş yine de yakında doğacak." },
+  { name: "Mahkeme", upright: "Uyanış, hesaplaşma ve yeniden doğuş. Geçmişi değerlendirme zamanı.", reversedText: "Kendine karşı aşırı eleştirel olma ya da geçmişten ders çıkaramama." },
+  { name: "Dünya", upright: "Tamamlanma, bütünlük ve başarı. Bir döngüyü tamamladın.", reversedText: "Yarım kalmış bir hedef ya da kapanışa direnme." },
+];
+
+// ---- Sevgi Dili Testi ----
+const LOVE_LANGUAGE_QUESTIONS = [
+  {
+    q: "Partnerin sana en çok ne zaman değerli hissettirir?",
+    options: [
+      { text: "Bana güzel, içten sözler söylediğinde.", type: "sozler" },
+      { text: "Telefonları bırakıp sadece bana zaman ayırdığında.", type: "zaman" },
+      { text: "Beni düşünerek küçük bir hediye aldığında.", type: "hediye" },
+      { text: "Benim için bir işi üstlenip kolaylaştırdığında.", type: "hizmet" },
+      { text: "Sarılıp elimi tuttuğunda.", type: "temas" },
+    ],
+  },
+  {
+    q: "Kötü bir gün geçirdiğinde en çok neye ihtiyaç duyarsın?",
+    options: [
+      { text: "Beni anladığını söyleyen birkaç cümleye.", type: "sozler" },
+      { text: "Yanımda oturup dinlemesine.", type: "zaman" },
+      { text: "Moralimi yükseltecek küçük bir jest ya da hediyeye.", type: "hediye" },
+      { text: "Yükümü hafifletecek somut bir yardıma.", type: "hizmet" },
+      { text: "Sıkıca bir sarılmaya.", type: "temas" },
+    ],
+  },
+  {
+    q: "Partnerine sevgini en çok nasıl gösterirsin?",
+    options: [
+      { text: "Ona ne kadar değerli olduğunu söyleyerek.", type: "sozler" },
+      { text: "Ona vakit ayırarak, birlikte anlar yaratarak.", type: "zaman" },
+      { text: "Küçük sürprizler ve hediyeler hazırlayarak.", type: "hediye" },
+      { text: "Onun işini kolaylaştıracak şeyler yaparak.", type: "hizmet" },
+      { text: "Fiziksel yakınlık göstererek.", type: "temas" },
+    ],
+  },
+  {
+    q: "İdeal bir yıl dönümü nasıl geçer?",
+    options: [
+      { text: "Birbirimize anlamlı sözler söylediğimiz bir akşam.", type: "sozler" },
+      { text: "Telefonsuz, sadece ikimize ayrılmış uzun bir gün.", type: "zaman" },
+      { text: "Özenle seçilmiş bir hediye alışverişi.", type: "hediye" },
+      { text: "Partnerimin benim için özel bir şey hazırlaması.", type: "hizmet" },
+      { text: "Yakın, sıcak ve dokunsal bir akşam.", type: "temas" },
+    ],
+  },
+  {
+    q: "Seni en çok ne kırar?",
+    options: [
+      { text: "Sert ya da umursamaz sözler.", type: "sozler" },
+      { text: "Bana zaman ayırmaması, hep meşgul olması.", type: "zaman" },
+      { text: "Özel günleri unutması.", type: "hediye" },
+      { text: "Yardım isteyince görmezden gelmesi.", type: "hizmet" },
+      { text: "Fiziksel olarak mesafeli davranması.", type: "temas" },
+    ],
+  },
+  {
+    q: "Bir hediye aldığında en çok neyi önemsersin?",
+    options: [
+      { text: "Hediyeyle birlikte gelen anlamlı notu.", type: "sozler" },
+      { text: "Hediyeyi seçerken harcadığı zamanı.", type: "zaman" },
+      { text: "Hediyenin kendisini, düşünceyi.", type: "hediye" },
+      { text: "Hediyenin bir ihtiyacımı çözmesini.", type: "hizmet" },
+      { text: "Hediyeyi verirken sarılmasını.", type: "temas" },
+    ],
+  },
+  {
+    q: "Uzun bir iş gününün ardından eve geldiğinde ne seni mutlu eder?",
+    options: [
+      { text: "\"Seni özledim\" demesi.", type: "sozler" },
+      { text: "Birlikte oturup günü konuşmamız.", type: "zaman" },
+      { text: "Beni düşünüp bir şey almış olması.", type: "hediye" },
+      { text: "Yemeği hazırlamış olması.", type: "hizmet" },
+      { text: "Kapıda sıcak bir sarılma.", type: "temas" },
+    ],
+  },
+  {
+    q: "Bir ilişkide sana göre en önemli şey nedir?",
+    options: [
+      { text: "Açık ve içten iletişim.", type: "sozler" },
+      { text: "Birlikte geçirilen kaliteli zaman.", type: "zaman" },
+      { text: "Düşünceli jestler.", type: "hediye" },
+      { text: "Birbirine pratik destek olmak.", type: "hizmet" },
+      { text: "Fiziksel yakınlık ve sıcaklık.", type: "temas" },
+    ],
+  },
+];
+
+const LOVE_LANGUAGE_RESULTS = {
+  sozler: {
+    title: "Onaylayıcı Sözler",
+    tagline: "Kelimeler senin için her şeyi değiştirir",
+    text: "Senin için sevgi, söylenen sözlerde saklı. Birinin sana \"seninle gurur duyuyorum\", \"seni seviyorum\" ya da \"harikasın\" demesi, kalbine dokunan en güçlü şey. Sert ya da umursamaz sözler ise seni diğer insanlardan çok daha derinden yaralayabilir.",
+    tip: "Partnerine ihtiyacını söyle: ondan daha sık içten sözler duymak istediğini paylaşmak, ilişkinizi güçlendirecek.",
+  },
+  zaman: {
+    title: "Nitelikli Zaman",
+    tagline: "Senin için en değerli hediye, tam dikkat",
+    text: "Senin için sevgi, birinin sana tam olarak odaklanmış zaman ayırmasıdır. Telefonlar bir kenarda, sadece ikinizin olduğu anlar, sana kendini gerçekten değerli hissettirir. Meşguliyet ya da dikkat dağınıklığı, seni yalnız hissettirebilir.",
+    tip: "Partnerine, birlikte geçirdiğiniz kesintisiz zamanın senin için ne kadar önemli olduğunu hatırlat.",
+  },
+  hediye: {
+    title: "Hediyeler",
+    tagline: "Küçük bir jest, senin için büyük bir anlam taşır",
+    text: "Senin için önemli olan hediyenin maddi değeri değil, arkasındaki düşünce. Birinin seni aklında tutup küçük bir şey getirmesi, sana ne kadar değerli olduğunu hissettirir. Özel günlerin unutulması ise seni derinden üzebilir.",
+    tip: "Pahalı hediyeler beklemediğini, küçük ve düşünceli jestlerin senin için yeterli olduğunu partnerinle paylaş.",
+  },
+  hizmet: {
+    title: "Hizmet Eylemleri",
+    tagline: "Senin için eylemler, sözlerden daha yüksek sesle konuşur",
+    text: "Senin için sevgi, biri senin yükünü hafiflettiğinde hissedilir. Bir işi üstlenmek, yardım etmek, kolaylaştırmak — bunlar senin için en anlamlı sevgi gösterileri. Söz verilip yapılmayan şeyler ise seni hayal kırıklığına uğratabilir.",
+    tip: "Partnerine hangi somut yardımların senin için en çok anlam ifade ettiğini açıkça söyle.",
+  },
+  temas: {
+    title: "Fiziksel Temas",
+    tagline: "Senin için bir sarılma, bin kelimeye bedel",
+    text: "Senin için sevgi, fiziksel yakınlıkla somutlaşır. Bir el tutuşu, bir sarılma, yakın oturmak — bunlar sana güven ve sıcaklık verir. Fiziksel mesafe ise seni duygusal olarak da uzaklaşmış hissettirebilir.",
+    tip: "Partnerine fiziksel yakınlığın senin için ne kadar önemli olduğunu, küçük dokunuşların bile fark yarattığını anlat.",
+  },
+};
+
 // ---- Burçlar ----
 const ELEMENT_LABELS = { ates: "Ateş", toprak: "Toprak", hava: "Hava", su: "Su" };
 

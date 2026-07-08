@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kozmik Kişilik Testi — canastro</title>
-<meta name="description" content="8 soruluk kısa bir testle hangi kozmik karaktere ait olduğunu öğren.">
+<title>Sevgi Dili Testi — canastro</title>
+<meta name="description" content="8 soruluk testle sevgiyi nasıl hissettiğini ve ifade ettiğini keşfet.">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -16,12 +16,12 @@
       <a href="index.html">Ana Sayfa</a>
       <a href="burclar.html">Burçlar</a>
       <a href="uyum.html">Uyum Testi</a>
-      <a href="kisilik-testi.html" class="active">Kişilik Testi</a>
+      <a href="kisilik-testi.html">Kişilik Testi</a>
       <a href="numeroloji.html">Numeroloji</a>
       <a href="ask-hesaplama.html">Aşk Uyumu</a>
       <a href="ruya-tabiri.html">Rüya Tabiri</a>
       <a href="tarot.html">Tarot</a>
-      <a href="sevgi-dili.html">Sevgi Dili</a>
+      <a href="sevgi-dili.html" class="active">Sevgi Dili</a>
       <a href="cift-oyunu.html">Çift Oyunu</a>
     </nav>
     <button class="menu-toggle" id="menuToggle" aria-label="Menü">
@@ -32,13 +32,13 @@
     <a href="index.html">Ana Sayfa</a>
     <a href="burclar.html">Burçlar</a>
     <a href="uyum.html">Uyum Testi</a>
-    <a href="kisilik-testi.html" class="active">Kişilik Testi</a>
+    <a href="kisilik-testi.html">Kişilik Testi</a>
     <a href="numeroloji.html">Numeroloji</a>
     <a href="ask-hesaplama.html">Aşk Uyumu</a>
     <a href="ruya-tabiri.html">Rüya Tabiri</a>
-      <a href="tarot.html">Tarot</a>
-      <a href="sevgi-dili.html">Sevgi Dili</a>
-      <a href="cift-oyunu.html">Çift Oyunu</a>
+    <a href="tarot.html">Tarot</a>
+    <a href="sevgi-dili.html" class="active">Sevgi Dili</a>
+    <a href="cift-oyunu.html">Çift Oyunu</a>
   </div>
 </header>
 
@@ -47,8 +47,8 @@
   <section class="page-hero">
     <div class="hero-glow" aria-hidden="true"></div>
     <div class="reveal">
-      <h1>Sen hangi <span class="accent">kozmik tipsin?</span></h1>
-      <p>8 kısa soru, senin hakkında yıldızların bilmediği bir şey ortaya çıkarabilir.</p>
+      <h1>Senin <span class="accent">sevgi dilin</span> ne?</h1>
+      <p>8 soruluk kısa bir testle sevgiyi nasıl hissettiğini ve ifade ettiğini keşfet.</p>
     </div>
   </section>
 
@@ -62,16 +62,8 @@
         <p id="resultTagline" style="color:var(--accent);font-weight:600;margin-bottom:14px"></p>
         <p id="resultText"></p>
         <div style="margin-top:18px">
-          <span class="profile-label">Güçlü Yönlerin</span>
-          <p id="resultStrengths" style="margin-top:6px"></p>
-        </div>
-        <div style="margin-top:14px">
-          <span class="profile-label">Dikkat Et</span>
-          <p id="resultWatch" style="margin-top:6px"></p>
-        </div>
-        <div style="margin-top:14px">
-          <span class="profile-label">Elementin</span>
-          <p id="resultElement" style="margin-top:6px"></p>
+          <span class="profile-label">Partnerine Söyleyebilirsin</span>
+          <p id="resultTip" style="margin-top:6px"></p>
         </div>
         <button class="share-btn" id="shareBtn">Sonucunu Paylaş</button>
         <div style="margin-top:16px">
@@ -96,25 +88,23 @@
   const resultTitle = document.getElementById("resultTitle");
   const resultTagline = document.getElementById("resultTagline");
   const resultText = document.getElementById("resultText");
-  const resultStrengths = document.getElementById("resultStrengths");
-  const resultWatch = document.getElementById("resultWatch");
-  const resultElement = document.getElementById("resultElement");
+  const resultTip = document.getElementById("resultTip");
   const shareBtn = document.getElementById("shareBtn");
   const retryBtn = document.getElementById("retryBtn");
 
   let currentIndex = 0;
-  const scores = { gunes: 0, ay: 0, yildiz: 0, toprak: 0 };
+  const scores = { sozler: 0, zaman: 0, hediye: 0, hizmet: 0, temas: 0 };
   let currentShareText = "";
 
   function renderQuiz() {
     quizContainer.innerHTML = "";
-    PERSONALITY_QUESTIONS.forEach((q, i) => {
+    LOVE_LANGUAGE_QUESTIONS.forEach((q, i) => {
       const qEl = document.createElement("div");
       qEl.className = "quiz-question" + (i === 0 ? " active" : "");
       qEl.dataset.index = i;
 
       const optsHtml = q.options
-        .map((opt, oi) => '<button class="quiz-option" data-type="' + opt.type + '">' + opt.text + "</button>")
+        .map((opt) => '<button class="quiz-option" data-type="' + opt.type + '">' + opt.text + "</button>")
         .join("");
 
       qEl.innerHTML = "<h3>" + q.q + "</h3><div class='quiz-options'>" + optsHtml + "</div>";
@@ -129,9 +119,9 @@
   function selectAnswer(type) {
     scores[type]++;
     currentIndex++;
-    progressBar.style.width = (currentIndex / PERSONALITY_QUESTIONS.length) * 100 + "%";
+    progressBar.style.width = (currentIndex / LOVE_LANGUAGE_QUESTIONS.length) * 100 + "%";
 
-    if (currentIndex >= PERSONALITY_QUESTIONS.length) {
+    if (currentIndex >= LOVE_LANGUAGE_QUESTIONS.length) {
       showResult();
       return;
     }
@@ -141,23 +131,21 @@
   }
 
   function showResult() {
-    let winner = "gunes";
+    let winner = "sozler";
     let max = -1;
     Object.keys(scores).forEach((k) => {
       if (scores[k] > max) { max = scores[k]; winner = k; }
     });
 
-    const result = PERSONALITY_RESULTS[winner];
+    const result = LOVE_LANGUAGE_RESULTS[winner];
     quizContainer.style.display = "none";
     document.querySelector(".quiz-progress").style.display = "none";
 
     resultTitle.textContent = result.title;
     resultTagline.textContent = result.tagline;
     resultText.textContent = result.text;
-    resultStrengths.textContent = result.strengths.join(", ");
-    resultWatch.textContent = result.watchFor;
-    resultElement.textContent = ELEMENT_LABELS[result.element];
-    currentShareText = "Kozmik tipim: " + result.title + " (" + result.tagline + ")";
+    resultTip.textContent = result.tip;
+    currentShareText = "Sevgi dilim: " + result.title;
     resultCard.classList.add("visible");
   }
 

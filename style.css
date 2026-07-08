@@ -1,18 +1,18 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --bg: #0b0620;
-  --bg-soft: #150c33;
-  --card: #1c1140;
-  --card-soft: #241752;
+  --bg: #0a0a0a;
+  --bg-soft: #141414;
+  --card: #181818;
+  --card-soft: #232323;
   --border: rgba(255, 255, 255, 0.09);
-  --text: #f4f0ff;
-  --text-soft: #b3a8d1;
-  --accent: #f5c451;
-  --accent-soft: rgba(245, 196, 81, 0.15);
-  --accent2: #8b5cf6;
-  --accent2-soft: rgba(139, 92, 246, 0.18);
-  --radius: 18px;
+  --text: #f5f5f5;
+  --text-soft: #b3b3b3;
+  --accent: #e50914;
+  --accent-soft: rgba(229, 9, 20, 0.15);
+  --accent2: #ff4d5e;
+  --accent2-soft: rgba(255, 77, 94, 0.18);
+  --radius: 10px;
 }
 
 html {
@@ -64,7 +64,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 200;
-  background: rgba(11, 6, 32, 0.72);
+  background: rgba(10, 10, 10, 0.85);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--border);
@@ -93,9 +93,10 @@ header {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 26px;
-  font-size: 14px;
+  gap: 18px;
+  font-size: 13.5px;
   font-weight: 500;
+  white-space: nowrap;
 }
 
 .nav-links a { color: var(--text-soft); transition: color 0.2s ease; }
@@ -212,8 +213,8 @@ footer {
 
 .btn:hover { transform: translateY(-1px); }
 
-.btn-primary { background: var(--accent); color: #221604; }
-.btn-primary:hover { opacity: 0.9; }
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { opacity: 0.85; }
 
 .btn-secondary {
   background: transparent;
@@ -243,10 +244,15 @@ section { padding: 60px 24px 80px; position: relative; z-index: 1; }
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 30px 26px;
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
-.feature-card:hover { transform: translateY(-4px); border-color: var(--accent2); }
+.feature-card:hover {
+  transform: scale(1.04);
+  border-color: var(--accent);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  z-index: 2;
+}
 
 .feature-icon {
   width: 46px;
@@ -279,10 +285,15 @@ section { padding: 60px 24px 80px; position: relative; z-index: 1; }
   padding: 24px 16px;
   text-align: center;
   cursor: pointer;
-  transition: transform 0.15s ease, border-color 0.15s ease;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.zodiac-card:hover, .zodiac-card.selected { transform: translateY(-3px); border-color: var(--accent); }
+.zodiac-card:hover, .zodiac-card.selected {
+  transform: scale(1.06);
+  border-color: var(--accent);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  z-index: 2;
+}
 
 .zodiac-symbol { font-size: 32px; color: var(--accent); margin-bottom: 10px; }
 .zodiac-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
@@ -461,4 +472,56 @@ section { padding: 60px 24px 80px; position: relative; z-index: 1; }
 
 @media (max-width: 640px) {
   .tool-form, .quiz-question { padding: 24px 20px; }
+}
+
+/* Tarot */
+.tarot-grid {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.tarot-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.tarot-card {
+  width: 140px;
+  height: 220px;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, var(--card), var(--card-soft));
+  border: 2px solid var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  color: var(--accent);
+}
+
+.tarot-back { opacity: 0.85; }
+
+.tarot-card.flipped { animation: card-reveal 0.4s ease; }
+
+.tarot-face { text-align: center; padding: 12px; }
+.tarot-face h4 { font-size: 15px; font-weight: 700; }
+.tarot-face.reversed { transform: rotate(180deg); }
+
+.tarot-slot-label {
+  font-size: 12px;
+  color: var(--text-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+@keyframes card-reveal {
+  from { transform: rotateY(90deg); opacity: 0; }
+  to { transform: rotateY(0); opacity: 1; }
+}
+
+@media (max-width: 640px) {
+  .tarot-card { width: 100px; height: 160px; font-size: 28px; }
 }
