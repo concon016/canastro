@@ -80,7 +80,7 @@ revealEls.forEach((el) => revealObserver.observe(el));
 // Share helper — used by each tool page's result screen
 function shareResult(text) {
   const shareData = {
-    title: "canastro",
+    title: "astrolojivakti",
     text: text,
     url: window.location.href,
   };
