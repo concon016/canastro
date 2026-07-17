@@ -131,7 +131,7 @@ header {
   border-bottom: 1px solid var(--border);
 }
 
-.nav-mobile.open { max-height: 60vh; overflow-y: scroll; -webkit-overflow-scrolling: touch; padding: 8px 24px 16px; }
+.nav-mobile.open { max-height: 900px; overflow-y: visible; padding: 8px 24px 16px; }
 
 .nav-mobile a {
   padding: 12px 0;
