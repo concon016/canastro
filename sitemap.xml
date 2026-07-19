@@ -21,6 +21,26 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://astrolojivakti.com/kisilik-gunes-ruhu.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://astrolojivakti.com/kisilik-ay-ruyacisi.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://astrolojivakti.com/kisilik-yildiz-kasifi.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://astrolojivakti.com/kisilik-toprak-bilgesi.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://astrolojivakti.com/numeroloji.html</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -44,6 +64,31 @@
     <loc>https://astrolojivakti.com/sevgi-dili.html</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://astrolojivakti.com/sevgi-dili-onaylayici-sozler.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://astrolojivakti.com/sevgi-dili-nitelikli-zaman.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://astrolojivakti.com/sevgi-dili-hediyeler.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://astrolojivakti.com/sevgi-dili-hizmet-eylemleri.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://astrolojivakti.com/sevgi-dili-fiziksel-temas.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://astrolojivakti.com/cift-oyunu.html</loc>
