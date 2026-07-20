@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-X0ND5JB3C9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+  gtag("config", "G-X0ND5JB3C9");
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Love Language Test — astrolojivakti</title>
+<meta name="description" content="A short 8-question test to discover how you feel and express love.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Love Language Test — astrolojivakti">
+<meta property="og:description" content="A short 8-question test to discover how you feel and express love.">
+<meta property="og:image" content="https://astrolojivakti.com/assets/og-image.png">
+<meta property="og:url" content="https://astrolojivakti.com/en/love-language.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Love Language Test — astrolojivakti">
+<meta name="twitter:description" content="A short 8-question test to discover how you feel and express love.">
+<meta name="twitter:image" content="https://astrolojivakti.com/assets/og-image.png">
+<link rel="alternate" hreflang="tr" href="https://astrolojivakti.com/sevgi-dili.html">
+<link rel="alternate" hreflang="en" href="https://astrolojivakti.com/en/love-language.html">
+<link rel="alternate" hreflang="x-default" href="https://astrolojivakti.com/sevgi-dili.html">
+<link rel="icon" href="../assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="../assets/favicon-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a href="index.html" class="logo"><img src="../assets/logo-icon.png" alt="" class="logo-icon" width="24" height="22">astroloji<span class="accent">vakti</span></a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="zodiac.html">Zodiac</a>
+      <a href="compatibility.html">Compatibility</a>
+      <a href="personality-test.html">Personality Test</a>
+      <a href="numerology.html">Numerology</a>
+      <a href="love-calculator.html">Love Calculator</a>
+      <a href="dream-dictionary.html">Dream Dictionary</a>
+      <a href="tarot.html">Tarot</a>
+      <a href="love-language.html" class="active">Love Language</a>
+      <a href="couples-game.html">Couples Game</a>
+      <a href="this-or-that.html">This or That</a>
+      <a href="../sevgi-dili.html" class="lang-switch">TR</a>
+    </nav>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="nav-mobile" id="navMobile">
+    <a href="index.html">Home</a>
+    <a href="zodiac.html">Zodiac</a>
+    <a href="compatibility.html">Compatibility</a>
+    <a href="personality-test.html">Personality Test</a>
+    <a href="numerology.html">Numerology</a>
+    <a href="love-calculator.html">Love Calculator</a>
+    <a href="dream-dictionary.html">Dream Dictionary</a>
+    <a href="tarot.html">Tarot</a>
+    <a href="love-language.html" class="active">Love Language</a>
+    <a href="couples-game.html">Couples Game</a>
+    <a href="this-or-that.html">This or That</a>
+    <a href="../sevgi-dili.html">Türkçe</a>
+  </div>
+</header>
+
+<main>
+
+  <section class="page-hero">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="reveal">
+      <h1>What's your <span class="accent">love language?</span></h1>
+      <p>A short 8-question test to discover how you feel and express love.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-inner">
+      <div class="quiz-progress"><div class="quiz-progress-bar" id="progressBar" style="width:0%"></div></div>
+      <div id="quizContainer"></div>
+
+      <div class="result-card" id="resultCard" style="max-width:560px;margin-left:auto;margin-right:auto;">
+        <h3 id="resultTitle"></h3>
+        <p id="resultTagline" style="color:var(--accent);font-weight:600;margin-bottom:14px"></p>
+        <p id="resultText"></p>
+        <div style="margin-top:18px">
+          <span class="profile-label">You Could Tell Your Partner</span>
+          <p id="resultTip" style="margin-top:6px"></p>
+        </div>
+        <div class="result-actions">
+          <button class="share-btn" id="shareBtn">Share Result</button>
+          <button class="download-btn" id="downloadCardBtn">🖼️ Download Image Card</button>
+        </div>
+        <div style="margin-top:16px">
+          <button class="btn btn-secondary" id="retryBtn">Take Again</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  © 2026 astrolojivakti · For entertainment purposes only, no scientific basis. · <a href="privacy.html">Privacy Policy</a>
+  <p class="credit">This site was designed by <a href="https://canwebco.com" target="_blank" rel="noopener">canwebco</a>.</p>
+</footer>
+
+<script src="data.js"></script>
+<script src="../script.js"></script>
+<script>
+  const quizContainer = document.getElementById("quizContainer");
+  const progressBar = document.getElementById("progressBar");
+  const resultCard = document.getElementById("resultCard");
+  const resultTitle = document.getElementById("resultTitle");
+  const resultTagline = document.getElementById("resultTagline");
+  const resultText = document.getElementById("resultText");
+  const resultTip = document.getElementById("resultTip");
+  const shareBtn = document.getElementById("shareBtn");
+  const retryBtn = document.getElementById("retryBtn");
+
+  let currentIndex = 0;
+  const scores = { words: 0, time: 0, gifts: 0, service: 0, touch: 0 };
+  let currentShareText = "";
+
+  function renderQuiz() {
+    quizContainer.innerHTML = "";
+    LOVE_LANGUAGE_QUESTIONS.forEach((q, i) => {
+      const qEl = document.createElement("div");
+      qEl.className = "quiz-question" + (i === 0 ? " active" : "");
+      qEl.dataset.index = i;
+
+      const optsHtml = q.options
+        .map((opt) => '<button class="quiz-option" data-type="' + opt.type + '">' + opt.text + "</button>")
+        .join("");
+
+      qEl.innerHTML = "<h3>" + q.q + "</h3><div class='quiz-options'>" + optsHtml + "</div>";
+      quizContainer.appendChild(qEl);
+    });
+
+    quizContainer.querySelectorAll(".quiz-option").forEach((btn) => {
+      btn.addEventListener("click", () => selectAnswer(btn.dataset.type));
+    });
+  }
+
+  function selectAnswer(type) {
+    scores[type]++;
+    currentIndex++;
+    progressBar.style.width = (currentIndex / LOVE_LANGUAGE_QUESTIONS.length) * 100 + "%";
+
+    if (currentIndex >= LOVE_LANGUAGE_QUESTIONS.length) {
+      showResult();
+      return;
+    }
+
+    quizContainer.querySelectorAll(".quiz-question").forEach((el) => el.classList.remove("active"));
+    quizContainer.querySelector('[data-index="' + currentIndex + '"]').classList.add("active");
+  }
+
+  function showResult() {
+    let winner = "words";
+    let max = -1;
+    Object.keys(scores).forEach((k) => {
+      if (scores[k] > max) { max = scores[k]; winner = k; }
+    });
+
+    const result = LOVE_LANGUAGE_RESULTS[winner];
+    quizContainer.style.display = "none";
+    document.querySelector(".quiz-progress").style.display = "none";
+
+    resultTitle.textContent = result.title;
+    resultTagline.textContent = result.tagline;
+    resultText.textContent = result.text;
+    resultTip.textContent = result.tip;
+    currentShareText = "My love language: " + result.title;
+    resultCard.classList.add("visible");
+  }
+
+  function resetQuiz() {
+    currentIndex = 0;
+    Object.keys(scores).forEach((k) => (scores[k] = 0));
+    progressBar.style.width = "0%";
+    resultCard.classList.remove("visible");
+    quizContainer.style.display = "block";
+    document.querySelector(".quiz-progress").style.display = "block";
+    renderQuiz();
+  }
+
+  shareBtn.addEventListener("click", () => shareResult(currentShareText));
+  document.getElementById("downloadCardBtn").addEventListener("click", () => downloadShareCard(currentShareText));
+  retryBtn.addEventListener("click", resetQuiz);
+
+  renderQuiz();
+</script>
+</body>
+</html>

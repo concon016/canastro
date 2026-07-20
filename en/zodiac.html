@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-X0ND5JB3C9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+  gtag("config", "G-X0ND5JB3C9");
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Horoscopes — astrolojivakti</title>
+<meta name="description" content="Fresh love, career, and energy readings for all 12 zodiac signs, updated every day.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Daily Horoscopes — astrolojivakti">
+<meta property="og:description" content="Fresh love, career, and energy readings for all 12 zodiac signs, updated every day.">
+<meta property="og:image" content="https://astrolojivakti.com/assets/og-image.png">
+<meta property="og:url" content="https://astrolojivakti.com/en/zodiac.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Daily Horoscopes — astrolojivakti">
+<meta name="twitter:description" content="Fresh love, career, and energy readings for all 12 zodiac signs, updated every day.">
+<meta name="twitter:image" content="https://astrolojivakti.com/assets/og-image.png">
+<link rel="alternate" hreflang="tr" href="https://astrolojivakti.com/burclar.html">
+<link rel="alternate" hreflang="en" href="https://astrolojivakti.com/en/zodiac.html">
+<link rel="alternate" hreflang="x-default" href="https://astrolojivakti.com/burclar.html">
+<link rel="icon" href="../assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="../assets/favicon-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a href="index.html" class="logo"><img src="../assets/logo-icon.png" alt="" class="logo-icon" width="24" height="22">astroloji<span class="accent">vakti</span></a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="zodiac.html" class="active">Zodiac</a>
+      <a href="compatibility.html">Compatibility</a>
+      <a href="personality-test.html">Personality Test</a>
+      <a href="numerology.html">Numerology</a>
+      <a href="love-calculator.html">Love Calculator</a>
+      <a href="dream-dictionary.html">Dream Dictionary</a>
+      <a href="tarot.html">Tarot</a>
+      <a href="love-language.html">Love Language</a>
+      <a href="couples-game.html">Couples Game</a>
+      <a href="this-or-that.html">This or That</a>
+      <a href="../burclar.html" class="lang-switch">TR</a>
+    </nav>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="nav-mobile" id="navMobile">
+    <a href="index.html">Home</a>
+    <a href="zodiac.html" class="active">Zodiac</a>
+    <a href="compatibility.html">Compatibility</a>
+    <a href="personality-test.html">Personality Test</a>
+    <a href="numerology.html">Numerology</a>
+    <a href="love-calculator.html">Love Calculator</a>
+    <a href="dream-dictionary.html">Dream Dictionary</a>
+    <a href="tarot.html">Tarot</a>
+    <a href="love-language.html">Love Language</a>
+    <a href="couples-game.html">Couples Game</a>
+    <a href="this-or-that.html">This or That</a>
+    <a href="../burclar.html">Türkçe</a>
+  </div>
+</header>
+
+<main>
+
+  <section class="page-hero">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="reveal">
+      <h1>What do the <span class="accent">stars</span> say today?</h1>
+      <p>Pick your sign, read your personal daily reading.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-inner">
+      <div class="zodiac-grid" id="zodiacGrid"></div>
+      <div class="result-card" id="resultCard">
+        <div id="resultContent"></div>
+        <div class="result-actions">
+          <button class="share-btn" id="shareBtn">Share Result</button>
+          <button class="download-btn" id="downloadCardBtn">🖼️ Download Image Card</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  © 2026 astrolojivakti · For entertainment purposes only, no scientific basis. · <a href="privacy.html">Privacy Policy</a>
+  <p class="credit">This site was designed by <a href="https://canwebco.com" target="_blank" rel="noopener">canwebco</a>.</p>
+</footer>
+
+<script src="data.js"></script>
+<script src="../script.js"></script>
+<script>
+  const zodiacGrid = document.getElementById("zodiacGrid");
+  const resultCard = document.getElementById("resultCard");
+  const resultContent = document.getElementById("resultContent");
+  const shareBtn = document.getElementById("shareBtn");
+  let currentShareText = "";
+
+  ZODIAC_SIGNS.forEach((sign) => {
+    const card = document.createElement("div");
+    card.className = "zodiac-card reveal";
+    card.innerHTML =
+      '<div class="zodiac-symbol">' + sign.symbol + '</div>' +
+      '<h3>' + sign.name + '</h3>' +
+      '<span>' + sign.range + '</span>';
+    card.addEventListener("click", () => showHoroscope(sign, card));
+    zodiacGrid.appendChild(card);
+  });
+
+  document.querySelectorAll(".zodiac-card").forEach((el, i) => {
+    setTimeout(() => el.classList.add("visible"), i * 30);
+  });
+
+  function showHoroscope(sign, cardEl) {
+    document.querySelectorAll(".zodiac-card").forEach((el) => el.classList.remove("selected"));
+    cardEl.classList.add("selected");
+
+    const day = todayKey();
+    const general = seededPick(day + sign.id + "general", HOROSCOPE_POOLS.general);
+    const love = seededPick(day + sign.id + "love", HOROSCOPE_POOLS.love);
+    const career = seededPick(day + sign.id + "career", HOROSCOPE_POOLS.career);
+    const energy = seededPick(day + sign.id + "energy", HOROSCOPE_POOLS.energy);
+    const advice = seededPick(day + sign.id + "advice", HOROSCOPE_POOLS.advice);
+
+    const compatNames = sign.compatibleWith
+      .map((id) => ZODIAC_SIGNS.find((s) => s.id === id))
+      .map((s) => s.symbol + " " + s.name)
+      .join(", ");
+
+    resultContent.innerHTML =
+      '<h3>' + sign.symbol + ' ' + sign.name + ' — Today\'s Reading</h3>' +
+      '<p><strong>General:</strong> ' + general + '</p>' +
+      '<p style="margin-top:12px"><strong>Love:</strong> ' + love + '</p>' +
+      '<p style="margin-top:12px"><strong>Career:</strong> ' + career + '</p>' +
+      '<p style="margin-top:12px"><strong>Energy:</strong> ' + energy + '</p>' +
+      '<p style="margin-top:12px;color:var(--accent)"><strong>' + advice + '</strong></p>' +
+      '<div style="margin-top:24px;padding-top:24px;border-top:1px solid var(--border)">' +
+        '<h3>Zodiac Profile</h3>' +
+        '<p style="margin-top:8px">' + sign.trait + '</p>' +
+        '<div class="profile-grid">' +
+          '<div><span class="profile-label">Element</span>' + ELEMENT_LABELS[sign.element] + '</div>' +
+          '<div><span class="profile-label">Ruling Planet</span>' + sign.planet + '</div>' +
+          '<div><span class="profile-label">Lucky Color</span>' + sign.luckyColor + '</div>' +
+          '<div><span class="profile-label">Lucky Number</span>' + sign.luckyNumber + '</div>' +
+          '<div><span class="profile-label">Lucky Day</span>' + sign.luckyDay + '</div>' +
+          '<div><span class="profile-label">Most Compatible</span>' + compatNames + '</div>' +
+        '</div>' +
+        '<div style="margin-top:16px">' +
+          '<span class="profile-label">Strengths</span> ' + sign.strengths.join(", ") +
+        '</div>' +
+        '<div style="margin-top:8px">' +
+          '<span class="profile-label">Weaknesses</span> ' + sign.weaknesses.join(", ") +
+        '</div>' +
+      '</div>';
+
+    currentShareText = sign.symbol + " " + sign.name + " today: " + general;
+    resultCard.classList.add("visible");
+    resultCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+
+  shareBtn.addEventListener("click", () => shareResult(currentShareText));
+  document.getElementById("downloadCardBtn").addEventListener("click", () => downloadShareCard(currentShareText));
+</script>
+</body>
+</html>

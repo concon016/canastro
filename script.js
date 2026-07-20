@@ -200,7 +200,7 @@ function shareResult(text) {
         const btn = document.activeElement;
         if (btn && btn.dataset) {
           const original = btn.textContent;
-          btn.textContent = "Kopyalandı!";
+          btn.textContent = document.documentElement.lang === "en" ? "Copied!" : "Kopyalandı!";
           setTimeout(() => (btn.textContent = original), 1800);
         }
       })

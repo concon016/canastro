@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-X0ND5JB3C9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+  gtag("config", "G-X0ND5JB3C9");
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dream Dictionary — astrolojivakti</title>
+<meta name="description" content="Search a word from your dream and discover what it means.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Dream Dictionary — astrolojivakti">
+<meta property="og:description" content="Search a word from your dream and discover what it means.">
+<meta property="og:image" content="https://astrolojivakti.com/assets/og-image.png">
+<meta property="og:url" content="https://astrolojivakti.com/en/dream-dictionary.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Dream Dictionary — astrolojivakti">
+<meta name="twitter:description" content="Search a word from your dream and discover what it means.">
+<meta name="twitter:image" content="https://astrolojivakti.com/assets/og-image.png">
+<link rel="alternate" hreflang="tr" href="https://astrolojivakti.com/ruya-tabiri.html">
+<link rel="alternate" hreflang="en" href="https://astrolojivakti.com/en/dream-dictionary.html">
+<link rel="alternate" hreflang="x-default" href="https://astrolojivakti.com/ruya-tabiri.html">
+<link rel="icon" href="../assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="../assets/favicon-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a href="index.html" class="logo"><img src="../assets/logo-icon.png" alt="" class="logo-icon" width="24" height="22">astroloji<span class="accent">vakti</span></a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="zodiac.html">Zodiac</a>
+      <a href="compatibility.html">Compatibility</a>
+      <a href="personality-test.html">Personality Test</a>
+      <a href="numerology.html">Numerology</a>
+      <a href="love-calculator.html">Love Calculator</a>
+      <a href="dream-dictionary.html" class="active">Dream Dictionary</a>
+      <a href="tarot.html">Tarot</a>
+      <a href="love-language.html">Love Language</a>
+      <a href="couples-game.html">Couples Game</a>
+      <a href="this-or-that.html">This or That</a>
+      <a href="../ruya-tabiri.html" class="lang-switch">TR</a>
+    </nav>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="nav-mobile" id="navMobile">
+    <a href="index.html">Home</a>
+    <a href="zodiac.html">Zodiac</a>
+    <a href="compatibility.html">Compatibility</a>
+    <a href="personality-test.html">Personality Test</a>
+    <a href="numerology.html">Numerology</a>
+    <a href="love-calculator.html">Love Calculator</a>
+    <a href="dream-dictionary.html" class="active">Dream Dictionary</a>
+    <a href="tarot.html">Tarot</a>
+    <a href="love-language.html">Love Language</a>
+    <a href="couples-game.html">Couples Game</a>
+    <a href="this-or-that.html">This or That</a>
+    <a href="../ruya-tabiri.html">Türkçe</a>
+  </div>
+</header>
+
+<main>
+
+  <section class="page-hero">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="reveal">
+      <h1>What did you <span class="accent">dream about?</span></h1>
+      <p>Type a word you remember, discover what it means.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-inner">
+      <div class="tool-form reveal" style="max-width:640px">
+        <div class="form-row" style="margin-bottom:0">
+          <label for="dreamSearch">What you saw in your dream</label>
+          <input type="text" id="dreamSearch" placeholder="e.g. snake, water, flying...">
+        </div>
+      </div>
+
+      <div class="dream-results" id="dreamResults"></div>
+
+      <div style="margin-top:40px;">
+        <p style="margin-bottom:14px; color:var(--text-soft);">Frequently searched dream symbols:</p>
+        <div style="display:flex;flex-wrap:wrap;" id="popularSymbols"></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  © 2026 astrolojivakti · For entertainment purposes only, no scientific basis. · <a href="privacy.html">Privacy Policy</a>
+  <p class="credit">This site was designed by <a href="https://canwebco.com" target="_blank" rel="noopener">canwebco</a>.</p>
+</footer>
+
+<script src="data.js"></script>
+<script src="../script.js"></script>
+<script>
+  const dreamSearch = document.getElementById("dreamSearch");
+  const dreamResults = document.getElementById("dreamResults");
+  const popularSymbols = document.getElementById("popularSymbols");
+  const allKeys = Object.keys(DREAM_DICTIONARY);
+
+  allKeys.forEach((key) => {
+    const btn = document.createElement("button");
+    btn.className = "btn-secondary";
+    btn.style.cssText = "display:inline-block;margin:4px;cursor:pointer";
+    btn.textContent = key.charAt(0).toUpperCase() + key.slice(1);
+    btn.addEventListener("click", () => {
+      dreamSearch.value = key;
+      renderResults(key);
+      dreamResults.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    });
+    popularSymbols.appendChild(btn);
+  });
+
+  function renderResults(query) {
+    dreamResults.innerHTML = "";
+    const q = query.trim().toLocaleLowerCase("en-US");
+
+    if (!q) {
+      dreamResults.innerHTML = '<div class="empty-state">Type a word above to start searching.</div>';
+      return;
+    }
+
+    const matches = allKeys.filter((key) => key.includes(q));
+
+    if (matches.length === 0) {
+      dreamResults.innerHTML = '<div class="empty-state">No results found for "' + query + '". Try another word.</div>';
+      return;
+    }
+
+    matches.forEach((key) => {
+      const item = document.createElement("div");
+      item.className = "dream-item";
+      item.innerHTML = "<h4>" + key.charAt(0).toUpperCase() + key.slice(1) + "</h4><p>" + DREAM_DICTIONARY[key] + "</p>";
+      dreamResults.appendChild(item);
+    });
+  }
+
+  dreamSearch.addEventListener("input", () => renderResults(dreamSearch.value));
+  renderResults("");
+</script>
+</body>
+</html>
