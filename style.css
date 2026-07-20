@@ -90,6 +90,8 @@ header {
 
 .logo .accent { color: var(--accent); }
 
+.logo-icon { display: block; }
+
 .nav-links {
   display: flex;
   align-items: center;
@@ -371,6 +373,31 @@ section { padding: 60px 24px 80px; position: relative; z-index: 1; }
 }
 
 .share-btn:hover { background: var(--accent2); color: #fff; }
+
+.result-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+.result-actions .share-btn,
+.result-actions .download-btn { margin-top: 20px; }
+
+.download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 10px 20px;
+  border-radius: 980px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.download-btn:hover { background: var(--card); border-color: var(--accent); color: var(--accent); }
 
 /* Quiz */
 .quiz-progress {

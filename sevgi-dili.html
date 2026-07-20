@@ -22,13 +22,16 @@
 <meta name="twitter:title" content="Sevgi Dili Testi — astrolojivakti">
 <meta name="twitter:description" content="8 soruluk testle sevgiyi nasıl hissettiğini ve ifade ettiğini keşfet.">
 <meta name="twitter:image" content="https://astrolojivakti.com/assets/og-image.png">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/favicon-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header>
   <div class="nav-inner">
-    <a href="index.html" class="logo">astroloji<span class="accent">vakti</span></a>
+    <a href="index.html" class="logo"><img src="assets/logo-icon.png" alt="" class="logo-icon" width="24" height="22">astroloji<span class="accent">vakti</span></a>
     <nav class="nav-links">
       <a href="index.html">Ana Sayfa</a>
       <a href="burclar.html">Burçlar</a>
@@ -84,7 +87,10 @@
           <span class="profile-label">Partnerine Söyleyebilirsin</span>
           <p id="resultTip" style="margin-top:6px"></p>
         </div>
-        <button class="share-btn" id="shareBtn">Sonucunu Paylaş</button>
+        <div class="result-actions">
+          <button class="share-btn" id="shareBtn">Sonucunu Paylaş</button>
+          <button class="download-btn" id="downloadCardBtn">🖼️ Görsel Kart İndir</button>
+        </div>
         <div style="margin-top:16px">
           <button class="btn btn-secondary" id="retryBtn">Tekrar Çöz</button>
         </div>
@@ -191,6 +197,7 @@
   }
 
   shareBtn.addEventListener("click", () => shareResult(currentShareText));
+  document.getElementById("downloadCardBtn").addEventListener("click", () => downloadShareCard(currentShareText));
   retryBtn.addEventListener("click", resetQuiz);
 
   renderQuiz();
